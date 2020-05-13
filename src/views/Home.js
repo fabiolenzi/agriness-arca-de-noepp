@@ -1,20 +1,29 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import {
-    FlatList,
-    StatusBar,
-    StyleSheet,
-    Text
-} from 'react-native';
+import React, { useState, useEffect, Fragment, useRef } from 'react';
+import { FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
 import loadAnimals from '../api/Animals';
 import Card from '../components/Card';
 
-
-const Home = () => {
+const Home = ({ navigation }) => {
     const [animals, setAnimals] = useState();
 
+    const useIsMounted = () => {
+        const isMounted = useRef(false);
+        useEffect(() => {
+            isMounted.current = true;
+            return () => (isMounted.current = false);
+        }, []);
+        return isMounted;
+    };
+
+    const isMounted = useIsMounted();
+
     useEffect(() => {
-        setTimeout(() => {loadAnimals(setAnimals)}, 3000);
-    }, []);
+        if (isMounted.current) {loadAnimals(setAnimals); }
+    }, [isMounted]);
+
+    const handleCardTouch = (animal) => {
+        navigation.navigate('Profile', { animal });
+    }
 
     return animals ? (
         <Fragment>
@@ -27,12 +36,14 @@ const Home = () => {
                 data={animals}
                 keyExtractor={(animal) => animal.id}
                 renderItem={({ item }) =>
-                    <Card animal={item} />
+                    <Card animal={item} onPressCard={handleCardTouch} />
                 }
             />
         </Fragment>
     ) : (
-            <Text>Loading</Text>
+            <View style={styles.loading}>
+                <Text>Carregando conteúdo...</Text>
+            </View>
         );
 };
 
@@ -43,6 +54,13 @@ const styles = StyleSheet.create({
         marginTop: 50,
         fontSize: 24,
         fontWeight: '600',
+    },
+    loading: {
+        alignContent: 'center',
+        textAlign: 'center',
+        height: '100%',
+        justifyContent: 'center',
+        width: '100%'
     }
 });
 

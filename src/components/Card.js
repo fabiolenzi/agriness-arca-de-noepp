@@ -1,12 +1,9 @@
 import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/Entypo';
 
-const Card = ({ animal }) => {
+const Card = ({ animal, onPressCard }) => {
 
     const formatWeight = (weight, type) => {
         const fixedValue = weight.toFixed(1).replace('.', ',');
@@ -15,10 +12,14 @@ const Card = ({ animal }) => {
         } else {
             return `${fixedValue} kg`
         }
-    }
+    };
+
+    const handleCardTouch = () => {
+        onPressCard(animal);
+    };
 
     return (
-        <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={handleCardTouch}>
             <Text style={styles.cardTitle}>{animal.nome}</Text>
             <View style={styles.cardWrapper}>
                 <View style={styles.cardTypeWrapper}>
@@ -37,10 +38,10 @@ const Card = ({ animal }) => {
                 </View>
             </View>
             <View style={styles.locationWrapper}>
-                <Text>C*</Text>
+                <Icon name='home' color='#0c3892' size={24} />
                 <Text style={styles.cardLocation}>{animal.localizacao}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -64,11 +65,11 @@ const styles = StyleSheet.create({
     },
     cardTypeWrapper: {
         flex: 1,
-        borderColor: 'lightgrey',
+        borderColor: 'lightgray',
         borderRightWidth: 2
     },
     cardWrapperTitle: {
-        color: 'grey',
+        color: 'gray',
         fontSize: 10,
         fontWeight: 'bold',
         marginBottom: 5,
@@ -95,7 +96,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     locationWrapper: {
+        alignItems: 'center',
         flexDirection: 'row'
+    },
+    cardLocation: {
+        marginLeft: 5
     }
 });
 
