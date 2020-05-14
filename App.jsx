@@ -4,8 +4,12 @@ import Home from './src/views/Home';
 import Profile from './src/views/Profile';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { YellowBox } from 'react-native';
 
 const Stack = createStackNavigator();
+YellowBox.ignoreWarnings([
+  'Non-serializable values were found in the navigation state',
+]);
 
 class App extends React.Component {
   render() {
