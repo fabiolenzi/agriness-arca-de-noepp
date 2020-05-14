@@ -3,8 +3,6 @@ Arca de Noepp
 
 App created for Agriness code challenge.
 
-## Setup
-
 This project was bootstrapped with React Native CLI Quickstart and uses [React Navigation](https://reactnavigation.org), [React Native Vector Icons](https://github.com/oblador/react-native-vector-icons). Below you'll find information about performing common tasks.
 
 ## Available Scripts
