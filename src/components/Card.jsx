@@ -3,9 +3,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Entypo';
 
-const Card = ({ animal, onPressCard }) => {
+class Card extends React.Component {
 
-    const formatWeight = (weight, type) => {
+    formatWeight = (weight, type) => {
         const fixedValue = weight.toFixed(1).replace('.', ',');
         if (type === 'POULTRY') {
             return `${fixedValue} g`
@@ -14,35 +14,37 @@ const Card = ({ animal, onPressCard }) => {
         }
     };
 
-    const handleCardTouch = () => {
-        onPressCard(animal);
+    handleCardTouch = () => {
+        this.props.onPressCard(this.props.animal);
     };
 
-    return (
-        <TouchableOpacity style={styles.card} onPress={handleCardTouch}>
-            <Text style={styles.cardTitle}>{animal.nome}</Text>
-            <View style={styles.cardWrapper}>
-                <View style={styles.cardTypeWrapper}>
-                    <Text style={styles.cardWrapperTitle}>Tipo de animal</Text>
-                    <LinearGradient
-                        colors={['#0c3892', '#336aca']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        style={styles.cardGradientWrapper}>
-                        <Text style={styles.cardType}>{animal.tipoAnimal}</Text>
-                    </LinearGradient>
+    render() {
+        return (
+            <TouchableOpacity style={styles.card} onPress={this.handleCardTouch}>
+                <Text style={styles.cardTitle}>{this.props.animal.nome}</Text>
+                <View style={styles.cardWrapper}>
+                    <View style={styles.cardTypeWrapper}>
+                        <Text style={styles.cardWrapperTitle}>Tipo de animal</Text>
+                        <LinearGradient
+                            colors={['#0c3892', '#336aca']}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 0 }}
+                            style={styles.cardGradientWrapper}>
+                            <Text style={styles.cardType}>{this.props.animal.tipoAnimal}</Text>
+                        </LinearGradient>
+                    </View>
+                    <View style={styles.cardWeightWrapper}>
+                        <Text style={styles.cardWrapperTitle}>Peso</Text>
+                        <Text style={styles.cardWeight}>{this.formatWeight(this.props.animal.pesoCompra)}</Text>
+                    </View>
                 </View>
-                <View style={styles.cardWeightWrapper}>
-                    <Text style={styles.cardWrapperTitle}>Peso</Text>
-                    <Text style={styles.cardWeight}>{formatWeight(animal.pesoCompra)}</Text>
+                <View style={styles.locationWrapper}>
+                    <Icon name='home' color='#0c3892' size={24} />
+                    <Text style={styles.cardLocation}>{this.props.animal.localizacao}</Text>
                 </View>
-            </View>
-            <View style={styles.locationWrapper}>
-                <Icon name='home' color='#0c3892' size={24} />
-                <Text style={styles.cardLocation}>{animal.localizacao}</Text>
-            </View>
-        </TouchableOpacity>
-    );
+            </TouchableOpacity>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
