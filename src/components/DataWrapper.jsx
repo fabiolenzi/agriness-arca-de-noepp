@@ -8,6 +8,7 @@ class DataWrapper extends React.Component {
         super(props);
 
         this.state = {
+            isValueEmpty: false,
             isEditing: false,
             value: this.props.data,
             tempValue: this.props.data
@@ -15,6 +16,7 @@ class DataWrapper extends React.Component {
     }
 
     onChangeText = (text) => {
+        this.allowFieldIfInvalid();
         this.setState({ tempValue: text });
     }
 
@@ -29,7 +31,18 @@ class DataWrapper extends React.Component {
         });
     }
 
-    updateValue = () => {
+    allowFieldIfInvalid = () => {
+        if (this.state.isValueEmpty) {
+            this.setState({isValueEmpty: false})
+        }
+    }
+
+    tryUpdateValue = () => {
+        if (this.state.tempValue === '') {
+            this.setState({ isValueEmpty: true });
+            return;
+        }
+
         this.setState({
             isEditing: false,
             value: this.state.tempValue
@@ -44,10 +57,14 @@ class DataWrapper extends React.Component {
                     <Text style={styles.title}>{this.props.title}</Text>
                     {this.state.isEditing
                         ? <TextInput
-                            style={styles.input}
+                            style={[
+                                styles.input,
+                                this.state.isValueEmpty ? styles.invalidField : null
+                            ]}
                             onChangeText={text => this.onChangeText(text)}
                             value={this.state.tempValue}
                             autoFocus={true}
+                            onBlur={this.tryUpdateValue}
                         />
                         : <Text style={styles.data}>{this.state.value}</Text>
                     }
@@ -56,7 +73,7 @@ class DataWrapper extends React.Component {
                     {this.state.isEditing
                         ?
                         <Fragment>
-                            <Icon name='check' onPress={this.updateValue} size={26} />
+                            <Icon name='check' onPress={this.tryUpdateValue} size={26} />
                             <Icon name='cross' onPress={this.cancelEditor} size={30} />
                         </Fragment>
                         : <Icon name='edit' onPress={this.openEditor} size={22} />
@@ -94,6 +111,10 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         borderWidth: 1,
         height: 30
+    },
+    invalidField: {
+        borderColor: 'red',
+        borderWidth: 2
     }
 });
 

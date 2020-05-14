@@ -15,8 +15,8 @@ class Profile extends React.Component {
     save = async () => {
         try {
             await AnimalsApi.editAnimal(this.state.animal);
-            this.props.navigation.pop();
             this.props.route.params.updateAnimalInList(this.state.animal);
+            this.props.navigation.pop();
         } catch (error) {
             console.log(error);
         }
@@ -25,8 +25,8 @@ class Profile extends React.Component {
     delete = async () => {
         try {
             await AnimalsApi.deleteAnimal(this.state.animal.id);
-            this.props.navigation.pop();
             this.props.route.params.removeAnimalFromList(this.state.animal.id);
+            this.props.navigation.pop();
         } catch (error) {
             error => console.log(error);
         }
