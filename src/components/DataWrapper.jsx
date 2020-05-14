@@ -109,8 +109,7 @@ const styles = StyleSheet.create({
     },
     input: {
         borderColor: 'gray',
-        borderWidth: 1,
-        height: 30
+        borderWidth: 1
     },
     invalidField: {
         borderColor: 'red',

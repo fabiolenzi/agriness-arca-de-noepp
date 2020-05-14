@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, Button, ScrollView } from 'react-native';
 import DataWrapper from '../components/DataWrapper';
 import AnimalsApi from '../api/Animals';
 
@@ -40,7 +40,7 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <View style={styles.profile}>
+            <ScrollView style={styles.profile}>
                 <DataWrapper
                     title={'Nome'}
                     data={this.state.animal.nome}
@@ -69,7 +69,7 @@ class Profile extends React.Component {
 
                 <Button title='Salvar' onPress={this.save} />
                 <Button title='Deletar' color='red' onPress={this.delete} />
-            </View>
+            </ScrollView>
         );
     }
 };
